@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eskinfotechweb.domain.Role;
 import com.eskinfotechweb.domain.User;
 import com.eskinfotechweb.dto.UserDTO;
 import com.eskinfotechweb.services.UserService;
@@ -55,5 +56,11 @@ public class UserResource {
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		userService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/{id}/roles")
+	public ResponseEntity<List<Role>> findRoles(@PathVariable String id) {
+		User user = userService.findById(id);		
+		return ResponseEntity.ok().body(user.getRoles());
 	}
 }

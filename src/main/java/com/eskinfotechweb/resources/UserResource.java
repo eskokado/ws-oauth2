@@ -1,6 +1,7 @@
 package com.eskinfotechweb.resources;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eskinfotechweb.domain.User;
+import com.eskinfotechweb.dto.UserDTO;
 import com.eskinfotechweb.services.UserService;
 
 @RestController
@@ -19,9 +21,10 @@ public class UserResource {
 	private UserService userService;
 	
 	@GetMapping
-	public ResponseEntity<List<User>> findAll() {
-		List<User> users = userService.findAll(); 
-		return ResponseEntity.ok().body(users);
+	public ResponseEntity<List<UserDTO>> findAll() {
+		List<User> users = userService.findAll();
+		List<UserDTO> usersDTO = users.stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(usersDTO);
 	}
 	
 }

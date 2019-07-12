@@ -38,6 +38,10 @@ public class UserService {
 		
 	}
 	
+	public void delete(String id) {
+		userRepository.deleteById(id);
+	}
+	
 	public User fromDTO(UserDTO userDTO) {
 		return new User(userDTO);
 	}

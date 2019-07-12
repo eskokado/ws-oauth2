@@ -18,10 +18,10 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		User joao = new User("João", "Souza", "joao@gmail.com");
-		User maria = new User("Maria", "Teixeira", "maria@gmail.com");
-		User jose = new User("José", "Silva", "jose@gmail.com");
-		User ana = new User("Ana", "Rosa", "ana@gmail.com");
+		User joao = new User(null, "João", "Souza", "joao@gmail.com");
+		User maria = new User(null, "Maria", "Teixeira", "maria@gmail.com");
+		User jose = new User(null, "José", "Silva", "jose@gmail.com");
+		User ana = new User(null, "Ana", "Rosa", "ana@gmail.com");
 		
 		createUserIfNotFound(joao);
 		createUserIfNotFound(maria);

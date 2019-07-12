@@ -30,6 +30,14 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	
+	public User update(User user) {
+		Optional<User> userUpdate = userRepository.findById(user.getId());
+		return userUpdate.map(u -> userRepository.save(
+				new User(u.getId(), user.getFirstName(), user.getLastName(), user.getEmail())))
+				.orElseThrow(() -> new ObjectNotFoundException("Usuário não cadastrado!"));
+		
+	}
+	
 	public User fromDTO(UserDTO userDTO) {
 		return new User(userDTO);
 	}

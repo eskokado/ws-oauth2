@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,5 +41,12 @@ public class UserResource {
 	public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO) {		
 		User user = userService.fromDTO(userDTO);		
 		return ResponseEntity.ok().body(new UserDTO(userService.create(user)));
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<UserDTO> update(@PathVariable String id,  @RequestBody UserDTO userDTO) {
+		User user = userService.fromDTO(userDTO);
+		user.setId(id);
+		return ResponseEntity.ok().body(new UserDTO(userService.update(user)));
 	}
 }

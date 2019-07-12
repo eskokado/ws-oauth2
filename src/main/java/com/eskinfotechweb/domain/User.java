@@ -1,8 +1,11 @@
 package com.eskinfotechweb.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.eskinfotechweb.dto.UserDTO;
@@ -17,6 +20,9 @@ public class User implements Serializable {
 	private String lastName;
 	private String email;
 
+	@DBRef(lazy = true)
+	private List<Role> roles = new ArrayList<>();
+
 	public User() {
 	}
 
@@ -26,7 +32,7 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.email = email;
 	}
-	
+
 	public User(UserDTO userDTO) {
 		this.id = userDTO.getId();
 		this.firstName = userDTO.getFirstName();
@@ -64,6 +70,14 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	@Override

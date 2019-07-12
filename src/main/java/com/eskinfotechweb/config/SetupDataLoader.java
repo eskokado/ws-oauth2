@@ -1,11 +1,13 @@
 package com.eskinfotechweb.config;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 import com.eskinfotechweb.domain.Role;
 import com.eskinfotechweb.domain.User;
@@ -24,6 +26,9 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		
+		userRepository.deleteAll();
+		roleRepository.deleteAll();
+		
 		Role roleAdmin = createRoleIfNotFound("ROLE_ADMIN");
 		Role roleUser = createRoleIfNotFound("ROLE_USER");
 		
@@ -31,6 +36,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 		User maria = new User(null, "Maria", "Teixeira", "maria@gmail.com");
 		User jose = new User(null, "José", "Silva", "jose@gmail.com");
 		User ana = new User(null, "Ana", "Rosa", "ana@gmail.com");
+		
+		joao.setRoles(Arrays.asList(roleAdmin));
+		maria.setRoles(Arrays.asList(roleUser));
+		jose.setRoles(Arrays.asList(roleUser));
+		ana.setRoles(Arrays.asList(roleUser));
 		
 		createUserIfNotFound(joao);
 		createUserIfNotFound(maria);

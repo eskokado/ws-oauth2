@@ -7,7 +7,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import com.eskinfotechweb.domain.Role;
 import com.eskinfotechweb.domain.User;
+import com.eskinfotechweb.repositories.RoleRepository;
 import com.eskinfotechweb.repositories.UserRepository;
 
 @Configuration
@@ -16,8 +18,15 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private RoleRepository roleRepository;	
+	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
+		
+		Role roleAdmin = createRoleIfNotFound("ROLE_ADMIN");
+		Role roleUser = createRoleIfNotFound("ROLE_USER");
+		
 		User joao = new User(null, "João", "Souza", "joao@gmail.com");
 		User maria = new User(null, "Maria", "Teixeira", "maria@gmail.com");
 		User jose = new User(null, "José", "Silva", "jose@gmail.com");
@@ -27,6 +36,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 		createUserIfNotFound(maria);
 		createUserIfNotFound(jose);
 		createUserIfNotFound(ana);
+		
 	}
 
 	private User createUserIfNotFound(final User user) {
@@ -35,5 +45,13 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 			return obj.get();
 		}
 		return userRepository.save(user);
+	}
+	
+	private Role createRoleIfNotFound(String name) {
+		Optional<Role> obj = roleRepository.findByName(name);
+		if (obj.isPresent()) {
+			return obj.get();
+		}
+		return roleRepository.save(new Role(null, name));
 	}
 }

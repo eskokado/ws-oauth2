@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.eskinfotechweb.domain.Role;
 import com.eskinfotechweb.domain.User;
@@ -22,6 +23,9 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 	@Autowired
 	private RoleRepository roleRepository;	
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		
@@ -31,10 +35,10 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 		Role roleAdmin = createRoleIfNotFound("ROLE_ADMIN");
 		Role roleUser = createRoleIfNotFound("ROLE_USER");
 		
-		User joao = new User(null, "João", "Souza", "joao@gmail.com");
-		User maria = new User(null, "Maria", "Teixeira", "maria@gmail.com");
-		User jose = new User(null, "José", "Silva", "jose@gmail.com");
-		User ana = new User(null, "Ana", "Rosa", "ana@gmail.com");
+		User joao = new User(null, "João", "Souza", "joao@gmail.com", passwordEncoder.encode("123"), true);
+		User maria = new User(null, "Maria", "Teixeira", "maria@gmail.com", passwordEncoder.encode("123"), true);
+		User jose = new User(null, "José", "Silva", "jose@gmail.com", passwordEncoder.encode("123"), true);
+		User ana = new User(null, "Ana", "Rosa", "ana@gmail.com", passwordEncoder.encode("123"), true);
 		
 		joao.setRoles(Arrays.asList(roleAdmin));
 		maria.setRoles(Arrays.asList(roleUser));

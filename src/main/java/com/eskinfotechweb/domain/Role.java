@@ -4,9 +4,10 @@ import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
 
 @Document
-public class Role implements Serializable {
+public class Role implements Serializable, GrantedAuthority {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -22,6 +23,11 @@ public class Role implements Serializable {
 		this.name = name;
 	}
 
+	@Override
+	public String getAuthority() {
+		return name;
+	}	
+	
 	public String getId() {
 		return id;
 	}

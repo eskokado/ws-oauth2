@@ -33,7 +33,8 @@ public class UserService {
 	public User update(User user) {
 		Optional<User> userUpdate = userRepository.findById(user.getId());
 		return userUpdate.map(u -> userRepository.save(
-				new User(u.getId(), user.getFirstName(), user.getLastName(), user.getEmail())))
+				new User(u.getId(), user.getFirstName(), user.getLastName(), 
+						user.getEmail(), user.getPassword(), user.isEnabled())))
 				.orElseThrow(() -> new ObjectNotFoundException("Usuário não cadastrado!"));
 		
 	}
